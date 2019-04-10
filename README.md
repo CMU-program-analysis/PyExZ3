@@ -109,7 +109,7 @@ relative to that file will work.
 1. Grab yourself a Brew at http://brew.sh/
 2. Get the newest python or python3 version: `brew install python`
 3. Have the system prefer brew python over system python: `echo export PATH='/usr/local/bin:$PATH' >> ~/.bash_profile`  -
-4. Install z3 4.6.0
+4. Install z3 4.6.0 through homebrew
 5. Clone this repository: `git clone https://github.com/thomasjball/PyExZ3.git`
 6. Set the PATH: `. PyExZ3/setup.sh`  (do not run the setup script in a subshell `./ PyExZ3/`)
 
