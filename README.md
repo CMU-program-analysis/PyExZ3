@@ -1,7 +1,7 @@
 PyExZ3
 ======
 
-###Python Exploration with Z3
+### Python Exploration with Z3
 
 This code is a substantial rewrite of the NICE project's
 (http://code.google.com/p/nice-of/) symbolic execution engine for
@@ -12,9 +12,9 @@ by anyone wanting to experiment with dynamic symbolic execution.
 
 The paper [Deconstructing Dynamic Symbolic Execution](http://research.microsoft.com/apps/pubs/?id=233035)
 explains the basic ideas behind dynamic symbolic execution and the architecture
-of the PyExZ3 tool (as of git tag v1.0).  Bruni, Disney and Flanagan wrote about 
-encoding symbolic execution for Python in Python in the same way in their 2008 paper 
-[A Peer Architecture for Lightweight Symbolic Execution](http://hoheinzollern.files.wordpress.com/2008/04/seer1.pdf) - they use proxies rather than multiple inheritance for representing symbolic versions of Python types. 
+of the PyExZ3 tool (as of git tag v1.0).  Bruni, Disney and Flanagan wrote about
+encoding symbolic execution for Python in Python in the same way in their 2008 paper
+[A Peer Architecture for Lightweight Symbolic Execution](http://hoheinzollern.files.wordpress.com/2008/04/seer1.pdf) - they use proxies rather than multiple inheritance for representing symbolic versions of Python types.
 
 In the limit, **PyExZ3** attempts to *explore* all the feasible paths in a
 Python function by:
@@ -22,21 +22,21 @@ Python function by:
 - symbolic executing the path to determine how its conditions depend on the function's input parameters;
 - generating new values for the parameters to drive the function to yet uncovered paths, using Z3.  
 
-For small programs without loops or recursion, 
+For small programs without loops or recursion,
 **PyExZ3** may be able to explore all feasible paths.
 
 A novel aspect of the rewrite is to rely solely on Python's operator
 overloading to accomplish all the interception needed for symbolic
 execution; no AST rewriting or bytecode instrumentation is required,
-This significantly improves the robustness and portability of **PyExZ3**, 
+This significantly improves the robustness and portability of **PyExZ3**,
 as well as reducing its size.
 
-###Setup instructions:
+### Setup instructions:
 
-- Make sure that you use Python 32-bit (64-bit) if-and-only-if you use the Z3 32-bit (64-bit) binaries. 
+- Make sure that you use Python 32-bit (64-bit) if-and-only-if you use the Z3 32-bit (64-bit) binaries.
 Testing so far has been on Python 3.2.3 and 32-bit.
 - Install Python 3.2.3 (https://www.python.org/download/releases/3.2.3/)
-- Install the latest "unstable" release of Z3 to directory Z3HOME from http://z3.codeplex.com/releases
+- Install Z3 4.6.0 to directory Z3HOME from https://github.com/Z3Prover/z3/releases
 (click on the "Planned" link on the right to get the latest binaries for all platforms)
 - Add Z3HOME\bin to PATH and PYTHONPATH
 - MacOS: setup.sh for Homebrew default locations for Python and Z3; see end for MacOS specific instructions
@@ -51,13 +51,13 @@ Testing so far has been on Python 3.2.3 and 32-bit.
 
 ### Usage of PyExZ3
 
-- **Basic usage**: give a Python file `FILE.py` as input. By default, `pyexz3` expects `FILE.py` 
+- **Basic usage**: give a Python file `FILE.py` as input. By default, `pyexz3` expects `FILE.py`
 to contain a function named `FILE` where symbolic execution will start:
 
   - `pyexz3 FILE.py`
 
 - **Starting function**: You can override the default starting function with `--start MAIN`,
-where `MAIN` is the name of a  function in `FILE`: 
+where `MAIN` is the name of a  function in `FILE`:
 
   - pyexz3 `--start=MAIN` FILE.py
 
@@ -80,24 +80,24 @@ def startingfun(a,b,c,d):
   ```
   The `@concrete` decorator declares that a parameter will not be treated symbolically and
 provides an initial value for the parameter.
-The `@symbolic` decorator declares that a parameter will be treated symbolically - the type 
-of the associated initial value for the argument will be used to determine the proper symbolic 
+The `@symbolic` decorator declares that a parameter will be treated symbolically - the type
+of the associated initial value for the argument will be used to determine the proper symbolic
 type  (if one exists).   In the above example, parameters `a` and `b` are treated concretely
-and will have initial values `1` and `2` (for all paths explored), and parameter `c` will 
+and will have initial values `1` and `2` (for all paths explored), and parameter `c` will
 be treated as a symbolic integer input with the initial value `3` (its value can change after
-first path has been explored). Since parameter `d` is not specified, it will be treated as a symbolic 
+first path has been explored). Since parameter `d` is not specified, it will be treated as a symbolic
 integer input with the initial value 0:
 
-- **Output**: `pyexz3` prints the list of generated inputs and corresponding observed 
+- **Output**: `pyexz3` prints the list of generated inputs and corresponding observed
 return values to standard out; the lists of generated inputs and the corresponding return values are
-returned by the exploration engine to `pyexz3` where they can be used for other 
+returned by the exploration engine to `pyexz3` where they can be used for other
 purposes, as described below.
 
-- **Expected result functions** are used for testing of `pyexz3`. If the `FILE.py` contains a function named `expected_result` then after path exploration is complete, the list of return values will be compared against the list 
+- **Expected result functions** are used for testing of `pyexz3`. If the `FILE.py` contains a function named `expected_result` then after path exploration is complete, the list of return values will be compared against the list
 returned by `expected_result`. More precisely, the two lists are converted into bags and the bags compared for equality. If a function named `expected_result_set` is present instead, the list are converted into sets and the sets are
-compared for equality.  List equality is too strong a criteria for testing, since small changes to programs can lead to paths being explored in different orders. 
+compared for equality.  List equality is too strong a criteria for testing, since small changes to programs can lead to paths being explored in different orders.
 
-- **Import behavior**: the location of the `FILE.py` is added to the import path so that all imports in `FILE.py` 
+- **Import behavior**: the location of the `FILE.py` is added to the import path so that all imports in `FILE.py`
 relative to that file will work.
 
 - **Other options**
@@ -108,9 +108,9 @@ relative to that file will work.
 
 1. Grab yourself a Brew at http://brew.sh/
 2. Get the newest python or python3 version: `brew install python`
-3. Have the system prefer brew python over system python: `echo export PATH='/usr/local/bin:$PATH' >> ~/.bash_profile`  - 
-4. Get z3: `brew install homebrew/science/z3`
-5. Clone this repository: `git clone https://github.com/thomasjball/PyExZ3.git` 
+3. Have the system prefer brew python over system python: `echo export PATH='/usr/local/bin:$PATH' >> ~/.bash_profile`  -
+4. Install z3 4.6.0
+5. Clone this repository: `git clone https://github.com/thomasjball/PyExZ3.git`
 6. Set the PATH: `. PyExZ3/setup.sh`  (do not run the setup script in a subshell `./ PyExZ3/`)
 
 ### Vagrant specific
@@ -136,15 +136,15 @@ is hosted.
 
 ### CVC SMT Solver
 
-By default PyExZ3 uses the Z3 to solve path predicates. Optionally, the 
-[CVC SMT](http://cvc4.cs.nyu.edu/web/) solver can be enabled with the 
-`--cvc` argument. While the two solvers offer a similar feature set, the 
-integration of CVC differs from Z3 in a number of ways. Most 
-predominately, the CVC integration uses an unbounded rational number 
-representation for Python numbers, converting to bit vectors only for 
-bitwise operations. The Z3 integration uses bounded bit vectors for all 
-numbers. For programs that use any significant number of bitwise 
-operations, the default Z3-based configuration is strongly recommended. 
-Additionally, CVC does not support generating models for non-linear 
-relationships causing a few of the included PyExZ3 test cases to fail 
+By default PyExZ3 uses the Z3 to solve path predicates. Optionally, the
+[CVC SMT](http://cvc4.cs.nyu.edu/web/) solver can be enabled with the
+`--cvc` argument. While the two solvers offer a similar feature set, the
+integration of CVC differs from Z3 in a number of ways. Most
+predominately, the CVC integration uses an unbounded rational number
+representation for Python numbers, converting to bit vectors only for
+bitwise operations. The Z3 integration uses bounded bit vectors for all
+numbers. For programs that use any significant number of bitwise
+operations, the default Z3-based configuration is strongly recommended.
+Additionally, CVC does not support generating models for non-linear
+relationships causing a few of the included PyExZ3 test cases to fail
 with a `LogicException`.
